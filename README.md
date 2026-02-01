@@ -1,5 +1,6 @@
 # Software_Project
 Project Name: Personalized Workout Planner & Progress Tracker
+
 Overview:
 A web app that generates customized workout plans based on user goals (e.g., weight loss, muscle gain) and tracks progress via logged workouts, with adaptive adjustments over time.
 
