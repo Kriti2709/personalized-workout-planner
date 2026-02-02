@@ -25,3 +25,4 @@ Plans adjusted based on 90% adherence.
 Assumptions & Constraints:
 Users have basic web access; no hardware sensors; built with open-source stack; Agile sprints of 2 weeks.
 <img width="1101" height="1060" alt="software drawio" src="https://github.com/user-attachments/assets/ac7c1be0-e199-4313-b442-54e41135ddb7" />
+<img width="1919" height="1140" alt="Screenshot 2026-02-02 013936" src="https://github.com/user-attachments/assets/423c5b70-0972-4f21-9a1c-a4906f160b9a" />
