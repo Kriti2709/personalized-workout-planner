@@ -1,0 +1,11 @@
+{
+  "testRunner": "jest",
+  "mutate": ["src/services/*.js", "src/middleware/authMiddleware.js"],
+  "reporters": ["html", "clear-text", "progress"],
+  "coverageAnalysis": "perTest",
+  "thresholds": {
+    "high": 85,
+    "low": 75,
+    "break": 70
+  }
+}
