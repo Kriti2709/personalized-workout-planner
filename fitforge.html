@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitForge – Fit, Confident & Classy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F5A623;
+    --gold-dark: #D4881A;
+    --gold-light: #FFD07A;
+    --bg: #0D0D0D;
+    --bg2: #141414;
+    --bg3: #1C1C1C;
+    --card: #1E1E1E;
+    --border: #2A2A2A;
+    --text: #F0F0F0;
+    --muted: #888;
+    --red: #E03A3A;
+    --green: #27AE60;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── SCREEN SYSTEM ─── */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ─── NAV ─── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(13,13,13,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 3px;
+    color: var(--gold);
+  }
+  .logo span { color: var(--text); }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav ul li a {
+    color: var(--muted); text-decoration: none;
+    font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; transition: color .2s;
+  }
+  nav ul li a:hover, nav ul li a.active { color: var(--gold); }
+  .nav-profile {
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gold); display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 14px; color: #000;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    padding: 12px 28px; border: none; cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; transition: all .2s; border-radius: 4px;
+  }
+  .btn-gold { background: var(--gold); color: #000; }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; border: 2px solid var(--gold);
+    color: var(--gold);
+  }
+  .btn-outline:hover { background: var(--gold); color: #000; }
+  .btn-sm { padding: 8px 18px; font-size: 12px; }
+  .btn-danger { background: var(--red); color: #fff; }
+
+  /* ─── INTRO SCREEN ─── */
+  #screen-intro {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #0D0D0D 0%, #1a1008 50%, #0D0D0D 100%);
+  }
+  .intro-bg {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(245,166,35,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(245,166,35,0.07) 0%, transparent 50%);
+  }
+  .intro-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--gold) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .intro-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 100vh; text-align: center; padding: 40px;
+  }
+  .intro-badge {
+    display: inline-block; padding: 6px 20px;
+    border: 1px solid var(--gold); border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 28px;
+    animation: fadeDown .8s ease both;
+  }
+  .intro-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 140px);
+    line-height: 0.9; letter-spacing: 4px;
+    color: var(--text);
+    animation: fadeDown .8s .15s ease both;
+  }
+  .intro-title .gold { color: var(--gold); }
+  .intro-tagline {
+    font-size: clamp(14px, 2vw, 18px); font-weight: 300; letter-spacing: 6px;
+    text-transform: uppercase; color: var(--muted); margin: 20px 0 40px;
+    animation: fadeDown .8s .3s ease both;
+  }
+  .intro-btns {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    animation: fadeDown .8s .45s ease both;
+  }
+  .intro-stats {
+    display: flex; gap: 60px; margin-top: 80px;
+    animation: fadeDown .8s .6s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; color: var(--gold); line-height: 1;
+  }
+  .stat-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+  .intro-bar {
+    width: 60px; height: 3px; background: var(--gold); margin: 12px auto 0;
+  }
+
+  /* ─── AUTH SCREEN ─── */
+  #screen-auth {
+    background: var(--bg);
+    align-items: center; justify-content: center;
+  }
+  .auth-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 48px 44px;
+    width: 100%; max-width: 420px;
+    animation: fadeUp .5s ease;
+  }
+  .auth-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; letter-spacing: 4px; color: var(--gold);
+    text-align: center; margin-bottom: 8px;
+  }
+  .auth-sub { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 32px; }
+  .auth-tabs {
+    display: flex; border: 1px solid var(--border); border-radius: 6px;
+    overflow: hidden; margin-bottom: 28px;
+  }
+  .auth-tab {
+    flex: 1; padding: 11px; text-align: center; cursor: pointer;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    transition: all .2s; color: var(--muted);
+  }
+  .auth-tab.active { background: var(--gold); color: #000; }
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .form-input {
+    width: 100%; padding: 13px 16px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 14px;
+    font-family: 'Barlow', sans-serif; transition: border-color .2s;
+  }
+  .form-input:focus { outline: none; border-color: var(--gold); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-select {
+    width: 100%; padding: 13px 16px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 14px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .forgot { text-align: right; margin-top: -10px; margin-bottom: 20px; }
+  .forgot a { color: var(--gold); font-size: 12px; text-decoration: none; }
+  .auth-divider { text-align: center; color: var(--muted); font-size: 12px; margin: 20px 0; position: relative; }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; position: absolute; top: 50%;
+    width: 38%; height: 1px; background: var(--border);
+  }
+  .auth-divider::before { left: 0; }
+  .auth-divider::after { right: 0; }
+  .goal-select-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0;
+  }
+  .goal-option {
+    padding: 14px; border: 2px solid var(--border); border-radius: 8px;
+    cursor: pointer; text-align: center; transition: all .2s;
+  }
+  .goal-option:hover, .goal-option.selected { border-color: var(--gold); background: rgba(245,166,35,0.08); }
+  .goal-option .goal-icon { font-size: 24px; margin-bottom: 6px; }
+  .goal-option .goal-name { font-size: 12px; font-weight: 600; }
+
+  /* ─── DASHBOARD ─── */
+  #screen-dashboard { background: var(--bg); }
+  .dash-container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+  .dash-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; }
+  .welcome { font-size: 13px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .welcome-name { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 2px; color: var(--text); line-height: 1; }
+  .welcome-name span { color: var(--gold); }
+  .dash-date { color: var(--muted); font-size: 13px; text-align: right; }
+  .streak-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(245,166,35,0.1); border: 1px solid var(--gold);
+    border-radius: 20px; padding: 8px 16px; margin-top: 8px;
+    font-size: 13px; font-weight: 600; color: var(--gold);
+  }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .kpi-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; position: relative; overflow: hidden;
+  }
+  .kpi-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; background: var(--gold);
+  }
+  .kpi-label { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+  .kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--gold); line-height: 1; }
+  .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .dash-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Today's Workout */
+  .workout-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px;
+  }
+  .muscle-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .muscle-tab {
+    padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border);
+    font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s; color: var(--muted);
+  }
+  .muscle-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+  .exercise-list { display: flex; flex-direction: column; gap: 12px; }
+  .exercise-item {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 16px;
+    transition: border-color .2s; cursor: pointer;
+  }
+  .exercise-item:hover { border-color: var(--gold); }
+  .exercise-item.done { opacity: 0.5; }
+  .ex-check {
+    width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all .2s;
+  }
+  .exercise-item.done .ex-check { background: var(--gold); border-color: var(--gold); color: #000; }
+  .ex-info { flex: 1; }
+  .ex-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .ex-meta { font-size: 12px; color: var(--muted); }
+  .ex-weight {
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold);
+  }
+  .ex-weight span { font-size: 12px; color: var(--muted); font-family: 'Barlow', sans-serif; }
+  .ex-video-btn {
+    padding: 6px 12px; background: rgba(245,166,35,0.1);
+    border: 1px solid var(--gold); border-radius: 4px;
+    color: var(--gold); font-size: 11px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+  }
+  .ex-video-btn:hover { background: var(--gold); color: #000; }
+
+  /* Progress sidebar */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+  .progress-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+  }
+  .progress-ring-wrap { display: flex; justify-content: center; margin: 16px 0; }
+  svg.ring { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+  .ring-fill { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+  .ring-text { text-anchor: middle; dominant-baseline: central; }
+  .mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini-stat { background: var(--bg3); border-radius: 8px; padding: 12px; text-align: center; }
+  .mini-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--gold); }
+  .mini-stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Chart */
+  .chart-area { height: 140px; position: relative; margin-top: 12px; }
+  .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100%; }
+  .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; }
+  .chart-bar {
+    width: 100%; background: var(--border); border-radius: 4px 4px 0 0;
+    position: relative; transition: background .2s;
+  }
+  .chart-bar.filled { background: var(--gold); }
+  .chart-bar.today { background: var(--gold-light); }
+  .chart-day { font-size: 10px; color: var(--muted); }
+
+  /* ─── WORKOUT PLAN SCREEN ─── */
+  #screen-plan { background: var(--bg); }
+  .plan-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .plan-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .plan-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 3px; }
+  .plan-title span { color: var(--gold); }
+  .split-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+  .split-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; cursor: pointer; transition: all .2s; position: relative; overflow: hidden;
+  }
+  .split-card:hover, .split-card.active { border-color: var(--gold); }
+  .split-card.active::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold);
+  }
+  .split-day { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .split-muscle { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; }
+  .split-count { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .split-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--gold); color: #000;
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px;
+  }
+  .exercise-table { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .ex-table-header {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 80px;
+    padding: 12px 20px; background: var(--bg3);
+    font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase;
+  }
+  .ex-table-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 80px;
+    padding: 16px 20px; border-top: 1px solid var(--border);
+    align-items: center; transition: background .2s;
+  }
+  .ex-table-row:hover { background: var(--bg3); }
+  .ex-table-row .ex-name-cell { font-weight: 600; }
+  .ex-table-row .tag {
+    display: inline-block; padding: 3px 10px; border-radius: 10px;
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    background: rgba(245,166,35,0.15); color: var(--gold);
+  }
+  .pr-badge { color: var(--green); font-weight: 700; font-size: 13px; }
+  .log-btn {
+    padding: 7px 14px; background: var(--gold); border: none; border-radius: 4px;
+    color: #000; font-size: 11px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+  }
+  .log-btn:hover { background: var(--gold-light); }
+
+  /* ─── PROGRESS SCREEN ─── */
+  #screen-progress { background: var(--bg); }
+  .progress-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .metric-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+  }
+  .metric-label { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .metric-val { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--text); line-height: 1; }
+  .metric-unit { font-size: 16px; color: var(--muted); }
+  .metric-change { font-size: 12px; margin-top: 6px; }
+  .up { color: var(--green); } .down { color: var(--red); }
+  .chart-container-big {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 24px; margin-bottom: 24px;
+  }
+  .chart-svg { width: 100%; height: 200px; }
+  .prog-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .muscle-progress { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .muscle-row { margin-bottom: 16px; }
+  .muscle-row-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; font-weight: 600; }
+  .muscle-row-header span { color: var(--muted); font-size: 12px; }
+  .prog-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width .6s ease; }
+  .log-table { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .log-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 14px 20px; border-top: 1px solid var(--border);
+    font-size: 13px; align-items: center;
+  }
+  .log-row:first-child { background: var(--bg3); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+  /* ─── PROFILE SCREEN ─── */
+  #screen-profile { background: var(--bg); }
+  .profile-container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+  .profile-hero {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 32px; display: flex; gap: 32px; align-items: center; margin-bottom: 24px;
+  }
+  .profile-avatar-big {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: #000; flex-shrink: 0;
+  }
+  .profile-name { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 2px; line-height: 1; }
+  .profile-goal { color: var(--gold); font-size: 14px; letter-spacing: 1px; margin: 6px 0 12px; }
+  .profile-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .profile-tag {
+    padding: 5px 14px; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 20px; font-size: 12px; color: var(--muted);
+  }
+  .profile-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .info-val { font-weight: 600; font-size: 14px; }
+  .info-edit { color: var(--gold); font-size: 12px; cursor: pointer; }
+
+  /* ─── LOG WORKOUT MODAL ─── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 32px; width: 100%; max-width: 480px;
+    animation: fadeUp .3s ease;
+  }
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; margin-bottom: 20px; }
+  .modal-title span { color: var(--gold); }
+  .modal-close { float: right; cursor: pointer; color: var(--muted); font-size: 20px; line-height: 1; }
+  .set-row { display: grid; grid-template-columns: 40px 1fr 1fr 40px; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .set-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold); text-align: center; }
+  .set-done { color: var(--green); font-size: 20px; cursor: pointer; text-align: center; }
+  .add-set-btn {
+    width: 100%; padding: 10px; background: transparent; border: 1px dashed var(--border);
+    border-radius: 6px; color: var(--muted); font-size: 13px; cursor: pointer; margin-top: 4px;
+    transition: border-color .2s;
+  }
+  .add-set-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 30px; right: 30px; z-index: 300;
+    background: var(--card); border: 1px solid var(--gold); border-radius: 8px;
+    padding: 14px 20px; display: flex; align-items: center; gap: 10px;
+    font-size: 14px; font-weight: 600; transform: translateX(120%);
+    transition: transform .3s ease;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast-icon { font-size: 18px; }
+
+  /* ─── DIET PLAN SCREEN ─── */
+  #screen-diet { background: var(--bg); }
+  .diet-container { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+  .macro-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .macro-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; text-align: center;
+  }
+  .macro-icon { font-size: 28px; margin-bottom: 10px; }
+  .macro-val { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: var(--gold); }
+  .macro-label { font-size: 11px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+  .meal-timeline { display: flex; flex-direction: column; gap: 16px; }
+  .meal-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: start;
+  }
+  .meal-time-block { text-align: center; padding: 12px; background: var(--bg3); border-radius: 8px; }
+  .meal-time { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); }
+  .meal-type { font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+  .meal-foods { display: flex; flex-direction: column; gap: 8px; }
+  .food-item { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .food-item:last-child { border-bottom: none; }
+  .food-cals { color: var(--gold); font-weight: 600; font-size: 12px; }
+
+  /* Mobile friendly */
+  @media (max-width: 768px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .dash-grid { grid-template-columns: 1fr; }
+    .split-grid { grid-template-columns: 1fr 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    .prog-two-col { grid-template-columns: 1fr; }
+    .profile-two-col { grid-template-columns: 1fr; }
+    .macro-row { grid-template-columns: 1fr 1fr; }
+    .meal-card { grid-template-columns: 1fr; }
+    .ex-table-header, .ex-table-row { grid-template-columns: 2fr 1fr 1fr 1fr; }
+    .ex-table-header > *:nth-child(5), .ex-table-row > *:nth-child(5),
+    .ex-table-header > *:nth-child(6), .ex-table-row > *:nth-child(6) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ──────────────── TOAST ──────────────── -->
+<div class="toast" id="toast"><span class="toast-icon">✅</span> <span id="toastMsg">Done!</span></div>
+
+<!-- ──────────────── LOG MODAL ──────────────── -->
+<div class="modal-overlay" id="logModal">
+  <div class="modal">
+    <div class="modal-title"><span class="modal-close" onclick="closeModal()">✕</span>Log: <span id="modalExName">Barbell Squat</span></div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Sets</div>
+      <div class="set-row" style="font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase">
+        <div>Set</div><div>Weight (kg)</div><div>Reps</div><div>✓</div>
+      </div>
+      <div id="setRows">
+        <div class="set-row"><div class="set-num">1</div><input class="form-input" type="number" placeholder="60" style="padding:8px 10px"><input class="form-input" type="number" placeholder="10" style="padding:8px 10px"><div class="set-done" onclick="this.style.color='var(--green)'">○</div></div>
+        <div class="set-row"><div class="set-num">2</div><input class="form-input" type="number" placeholder="60" style="padding:8px 10px"><input class="form-input" type="number" placeholder="10" style="padding:8px 10px"><div class="set-done" onclick="this.style.color='var(--green)'">○</div></div>
+        <div class="set-row"><div class="set-num">3</div><input class="form-input" type="number" placeholder="60" style="padding:8px 10px"><input class="form-input" type="number" placeholder="10" style="padding:8px 10px"><div class="set-done" onclick="this.style.color='var(--green)'">○</div></div>
+      </div>
+      <button class="add-set-btn" onclick="addSet()">+ Add Set</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <input class="form-input" type="text" placeholder="e.g. Felt strong today">
+    </div>
+    <button class="btn btn-gold" style="width:100%" onclick="saveLog()">Save Workout Log</button>
+  </div>
+</div>
+
+<!-- ──────────────── NAV ──────────────── -->
+<nav id="mainNav" style="display:none">
+  <div class="logo">FIT<span>FORGE</span></div>
+  <ul>
+    <li><a href="#" onclick="goto('dashboard')" id="nav-dashboard">Dashboard</a></li>
+    <li><a href="#" onclick="goto('plan')" id="nav-plan">Workout Plan</a></li>
+    <li><a href="#" onclick="goto('progress')" id="nav-progress">Progress</a></li>
+    <li><a href="#" onclick="goto('diet')" id="nav-diet">Diet Plan</a></li>
+    <li><a href="#" onclick="goto('profile')" id="nav-profile">Profile</a></li>
+  </ul>
+  <div class="nav-profile" onclick="goto('profile')">
+    <div class="avatar">A</div>
+    <span style="font-size:13px;font-weight:600">Ashish</span>
+  </div>
+</nav>
+
+<!-- ══════════════ SCREEN: INTRO ══════════════ -->
+<div class="screen active" id="screen-intro">
+  <div class="intro-bg"></div>
+  <div class="intro-grid"></div>
+  <div class="intro-content">
+    <div class="intro-badge">AI-Powered Fitness Platform</div>
+    <div class="intro-title"><span class="gold">FIT</span>FORGE</div>
+    <div class="intro-tagline">Fit · Confident · Classy</div>
+    <div class="intro-btns">
+      <button class="btn btn-gold" onclick="goto('auth')">Start Now →</button>
+      <button class="btn btn-outline" onclick="demoLogin()">View Demo</button>
+    </div>
+    <div class="intro-stats">
+      <div class="stat">
+        <div class="stat-num">10K+</div>
+        <div class="intro-bar"></div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">80%</div>
+        <div class="intro-bar"></div>
+        <div class="stat-label">30-Day Retention</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4×</div>
+        <div class="intro-bar"></div>
+        <div class="stat-label">Avg Weekly Sessions</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: AUTH ══════════════ -->
+<div class="screen" id="screen-auth" style="align-items:center;justify-content:center;padding:40px 20px;background:var(--bg)">
+  <div class="auth-card">
+    <div class="auth-logo">FITFORGE</div>
+    <div class="auth-sub">Empower your fitness journey</div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</div>
+      <div class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="form-login">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="ashish@example.com" id="loginEmail">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="••••••••" id="loginPass">
+      </div>
+      <div class="forgot"><a href="#">Forgot Password?</a></div>
+      <button class="btn btn-gold" style="width:100%;margin-top:8px" onclick="doLogin()">Login</button>
+      <div class="auth-divider">or</div>
+      <button class="btn btn-outline" style="width:100%" onclick="demoLogin()">Continue as Demo User</button>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="form-signup" style="display:none">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" type="text" placeholder="Ashish">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input class="form-input" type="text" placeholder="Arora">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="ashish@example.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Age</label>
+          <input class="form-input" type="number" placeholder="22">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Weight (kg)</label>
+          <input class="form-input" type="number" placeholder="62">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Goal</label>
+        <div class="goal-select-grid">
+          <div class="goal-option" onclick="selectGoal(this)"><div class="goal-icon">🔥</div><div class="goal-name">Weight Loss</div></div>
+          <div class="goal-option selected" onclick="selectGoal(this)"><div class="goal-icon">💪</div><div class="goal-name">Muscle Gain</div></div>
+          <div class="goal-option" onclick="selectGoal(this)"><div class="goal-icon">⚡</div><div class="goal-name">Strength</div></div>
+          <div class="goal-option" onclick="selectGoal(this)"><div class="goal-icon">🏃</div><div class="goal-name">Endurance</div></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="Create password">
+      </div>
+      <button class="btn btn-gold" style="width:100%;margin-top:8px" onclick="demoLogin()">Create Account & Get Plan →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: DASHBOARD ══════════════ -->
+<div class="screen" id="screen-dashboard">
+  <div class="dash-container">
+    <div class="dash-header">
+      <div>
+        <div class="welcome">Welcome Back</div>
+        <div class="welcome-name">ASHISH <span>ARORA</span></div>
+        <div class="streak-badge">🔥 12 Day Streak — Keep Going!</div>
+      </div>
+      <div style="text-align:right">
+        <div class="dash-date" id="dashDate"></div>
+        <div style="color:var(--muted);font-size:12px;margin-top:6px">Goal: Muscle Gain</div>
+        <button class="btn btn-gold btn-sm" style="margin-top:12px" onclick="openLog('Today\'s Workout')">+ Log Workout</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Workouts This Week</div>
+        <div class="kpi-val">3</div>
+        <div class="kpi-sub">Target: 4 sessions</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Calories Burned</div>
+        <div class="kpi-val">2,140</div>
+        <div class="kpi-sub">This week</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Total Volume</div>
+        <div class="kpi-val">8.4T</div>
+        <div class="kpi-sub">kg lifted this week</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Adherence</div>
+        <div class="kpi-val">92%</div>
+        <div class="kpi-sub">Last 30 days</div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div>
+        <div class="section-title">Today's Workout — LEG DAY</div>
+        <div class="workout-card">
+          <div class="muscle-tabs">
+            <div class="muscle-tab active">Legs</div>
+            <div class="muscle-tab" onclick="switchMuscle(this,'chest')">Chest</div>
+            <div class="muscle-tab" onclick="switchMuscle(this,'back')">Back</div>
+            <div class="muscle-tab" onclick="switchMuscle(this,'shoulders')">Shoulders</div>
+            <div class="muscle-tab" onclick="switchMuscle(this,'arms')">Arms</div>
+          </div>
+          <div class="exercise-list" id="exerciseList">
+            <!-- exercises injected by JS -->
+          </div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="progress-card">
+          <div class="section-title" style="font-size:14px">Weekly Goal</div>
+          <div class="progress-ring-wrap">
+            <svg class="ring" width="120" height="120" viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="75"/>
+              <g transform="rotate(90,60,60)">
+                <text x="60" y="55" class="ring-text" fill="var(--gold)" font-family="Bebas Neue" font-size="26">75%</text>
+                <text x="60" y="72" class="ring-text" fill="var(--muted)" font-family="Barlow" font-size="11">3/4 done</text>
+              </g>
+            </svg>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat"><div class="mini-stat-val">12</div><div class="mini-stat-label">Streak</div></div>
+            <div class="mini-stat"><div class="mini-stat-val">48</div><div class="mini-stat-label">Total Sessions</div></div>
+            <div class="mini-stat"><div class="mini-stat-val">62kg</div><div class="mini-stat-label">Body Weight</div></div>
+            <div class="mini-stat"><div class="mini-stat-val">22%</div><div class="mini-stat-label">Body Fat</div></div>
+          </div>
+        </div>
+        <div class="progress-card">
+          <div class="section-title" style="font-size:14px">This Week</div>
+          <div class="chart-area">
+            <div class="chart-bars">
+              <div class="chart-bar-wrap"><div class="chart-bar filled" style="height:70%"></div><div class="chart-day">M</div></div>
+              <div class="chart-bar-wrap"><div class="chart-bar filled" style="height:90%"></div><div class="chart-day">T</div></div>
+              <div class="chart-bar-wrap"><div class="chart-bar" style="height:0%"></div><div class="chart-day">W</div></div>
+              <div class="chart-bar-wrap"><div class="chart-bar filled" style="height:60%"></div><div class="chart-day">T</div></div>
+              <div class="chart-bar-wrap"><div class="chart-bar today" style="height:45%"></div><div class="chart-day">F</div></div>
+              <div class="chart-bar-wrap"><div class="chart-bar" style="height:0%"></div><div class="chart-day">S</div></div>
+              <div class="chart-bar-wrap"><div class="chart-bar" style="height:0%"></div><div class="chart-day">S</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="progress-card" style="background:linear-gradient(135deg,rgba(245,166,35,0.15),rgba(245,166,35,0.05));border-color:rgba(245,166,35,0.3)">
+          <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">🤖 AI Insight</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">Your leg strength improved 12% this month. Consider increasing squat load to 70kg next session.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: WORKOUT PLAN ══════════════ -->
+<div class="screen" id="screen-plan">
+  <div class="plan-container">
+    <div class="plan-header">
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase">AI-Generated</div>
+        <div class="plan-title">YOUR <span>PLAN</span></div>
+      </div>
+      <button class="btn btn-gold" onclick="showToast('Plan regenerated with AI! 🤖')">🤖 Regenerate Plan</button>
+    </div>
+
+    <div class="split-grid">
+      <div class="split-card active" onclick="selectSplit(this,'legs')">
+        <div class="split-badge">TODAY</div>
+        <div class="split-day">Day 1 · Monday</div>
+        <div class="split-muscle">LEG DAY</div>
+        <div class="split-count">5 exercises · ~55 min</div>
+      </div>
+      <div class="split-card" onclick="selectSplit(this,'chest')">
+        <div class="split-day">Day 2 · Wednesday</div>
+        <div class="split-muscle">CHEST + TRICEPS</div>
+        <div class="split-count">6 exercises · ~60 min</div>
+      </div>
+      <div class="split-card" onclick="selectSplit(this,'back')">
+        <div class="split-day">Day 3 · Friday</div>
+        <div class="split-muscle">BACK + BICEPS</div>
+        <div class="split-count">6 exercises · ~65 min</div>
+      </div>
+      <div class="split-card" onclick="selectSplit(this,'shoulders')">
+        <div class="split-day">Day 4 · Saturday</div>
+        <div class="split-muscle">SHOULDERS</div>
+        <div class="split-count">5 exercises · ~50 min</div>
+      </div>
+      <div class="split-card" onclick="selectSplit(this,'arms')">
+        <div class="split-day">Day 5 · Tuesday</div>
+        <div class="split-muscle">ARMS</div>
+        <div class="split-count">4 exercises · ~45 min</div>
+      </div>
+      <div class="split-card" style="border-style:dashed;cursor:default;display:flex;align-items:center;justify-content:center;color:var(--muted)">
+        <div style="text-align:center"><div style="font-size:28px">🛌</div><div style="font-size:13px;font-weight:600">REST DAYS</div><div style="font-size:11px">Thu, Sun</div></div>
+      </div>
+    </div>
+
+    <div class="section-title" id="planSectionTitle">Leg Day — Exercises</div>
+    <div class="exercise-table">
+      <div class="ex-table-header">
+        <div>Exercise</div><div>Sets</div><div>Reps</div><div>Weight</div><div>PR</div><div>Action</div>
+      </div>
+      <div id="planExercises"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: PROGRESS ══════════════ -->
+<div class="screen" id="screen-progress">
+  <div class="progress-container">
+    <div class="plan-header">
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase">Data Driven</div>
+        <div class="plan-title">PROGRESS <span style="color:var(--gold)">CHARTS</span></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline btn-sm">Export PDF</button>
+        <button class="btn btn-gold btn-sm" onclick="showToast('Report sent to ashish@example.com 📧')">Email Report</button>
+      </div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Body Weight</div>
+        <div class="metric-val">62<span class="metric-unit">kg</span></div>
+        <div class="metric-change down">▼ 2.4kg from start</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Body Fat</div>
+        <div class="metric-val">22<span class="metric-unit">%</span></div>
+        <div class="metric-change down">▼ 3% from start</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">1RM Squat</div>
+        <div class="metric-val">90<span class="metric-unit">kg</span></div>
+        <div class="metric-change up">▲ +15kg this month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Total Workouts</div>
+        <div class="metric-val">48</div>
+        <div class="metric-change up">▲ 12 this month</div>
+      </div>
+    </div>
+
+    <div class="chart-container-big">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div class="section-title" style="margin-bottom:0;flex:1">Volume Over Time (kg lifted per week)</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-outline" onclick="showToast('4W view')">4W</button>
+          <button class="btn btn-sm btn-gold">8W</button>
+          <button class="btn btn-sm btn-outline" onclick="showToast('3M view')">3M</button>
+        </div>
+      </div>
+      <svg class="chart-svg" viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(245,166,35,0.3)"/>
+            <stop offset="100%" stop-color="rgba(245,166,35,0)"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid lines -->
+        <line x1="0" y1="40" x2="700" y2="40" stroke="var(--border)" stroke-width="1"/>
+        <line x1="0" y1="80" x2="700" y2="80" stroke="var(--border)" stroke-width="1"/>
+        <line x1="0" y1="120" x2="700" y2="120" stroke="var(--border)" stroke-width="1"/>
+        <line x1="0" y1="160" x2="700" y2="160" stroke="var(--border)" stroke-width="1"/>
+        <!-- Labels -->
+        <text x="5" y="38" fill="var(--muted)" font-size="10" font-family="Barlow">12T</text>
+        <text x="5" y="78" fill="var(--muted)" font-size="10" font-family="Barlow">9T</text>
+        <text x="5" y="118" fill="var(--muted)" font-size="10" font-family="Barlow">6T</text>
+        <text x="5" y="158" fill="var(--muted)" font-size="10" font-family="Barlow">3T</text>
+        <!-- Area -->
+        <path d="M35,150 L120,130 L200,110 L290,95 L380,75 L460,60 L550,45 L650,38 L650,160 L35,160 Z" fill="url(#areaGrad)"/>
+        <!-- Line -->
+        <polyline points="35,150 120,130 200,110 290,95 380,75 460,60 550,45 650,38" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- Dots -->
+        <circle cx="35" cy="150" r="4" fill="var(--gold)"/>
+        <circle cx="120" cy="130" r="4" fill="var(--gold)"/>
+        <circle cx="200" cy="110" r="4" fill="var(--gold)"/>
+        <circle cx="290" cy="95" r="4" fill="var(--gold)"/>
+        <circle cx="380" cy="75" r="4" fill="var(--gold)"/>
+        <circle cx="460" cy="60" r="4" fill="var(--gold)"/>
+        <circle cx="550" cy="45" r="4" fill="var(--gold)"/>
+        <circle cx="650" cy="38" r="5" fill="var(--gold-light)"/>
+        <!-- X labels -->
+        <text x="28" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk1</text>
+        <text x="113" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk2</text>
+        <text x="193" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk3</text>
+        <text x="283" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk4</text>
+        <text x="373" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk5</text>
+        <text x="453" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk6</text>
+        <text x="543" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk7</text>
+        <text x="640" y="178" fill="var(--muted)" font-size="10" font-family="Barlow">Wk8</text>
+      </svg>
+    </div>
+
+    <div class="prog-two-col">
+      <div class="muscle-progress">
+        <div class="section-title" style="font-size:14px">Strength by Muscle Group</div>
+        <div class="muscle-row">
+          <div class="muscle-row-header">Legs <span>90kg squat (+15kg)</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:85%"></div></div>
+        </div>
+        <div class="muscle-row">
+          <div class="muscle-row-header">Chest <span>80kg bench (+10kg)</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:72%"></div></div>
+        </div>
+        <div class="muscle-row">
+          <div class="muscle-row-header">Back <span>70kg row (+8kg)</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:68%"></div></div>
+        </div>
+        <div class="muscle-row">
+          <div class="muscle-row-header">Shoulders <span>20kg lateral (+4kg)</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:55%"></div></div>
+        </div>
+        <div class="muscle-row">
+          <div class="muscle-row-header">Arms <span>16kg curl (+3kg)</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:48%"></div></div>
+        </div>
+      </div>
+      <div class="log-table">
+        <div class="log-row">
+          <div>Date</div><div>Muscle</div><div>Volume</div><div>Duration</div>
+        </div>
+        <div class="log-row"><div>Apr 7</div><div>Legs</div><div>4,200kg</div><div>58 min</div></div>
+        <div class="log-row"><div>Apr 5</div><div>Back</div><div>3,800kg</div><div>62 min</div></div>
+        <div class="log-row"><div>Apr 3</div><div>Chest</div><div>4,100kg</div><div>55 min</div></div>
+        <div class="log-row"><div>Apr 1</div><div>Shoulders</div><div>2,900kg</div><div>48 min</div></div>
+        <div class="log-row"><div>Mar 30</div><div>Legs</div><div>3,600kg</div><div>60 min</div></div>
+        <div class="log-row"><div>Mar 28</div><div>Arms</div><div>2,100kg</div><div>42 min</div></div>
+        <div class="log-row"><div>Mar 26</div><div>Back</div><div>3,500kg</div><div>58 min</div></div>
+        <div class="log-row"><div>Mar 24</div><div>Chest</div><div>3,900kg</div><div>52 min</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: DIET PLAN ══════════════ -->
+<div class="screen" id="screen-diet">
+  <div class="diet-container">
+    <div class="plan-header">
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase">Personalized Nutrition</div>
+        <div class="plan-title">DIET <span style="color:var(--gold)">PLAN</span></div>
+      </div>
+      <button class="btn btn-gold" onclick="showToast('Diet plan updated for muscle gain! 💪')">🤖 Update Plan</button>
+    </div>
+    <div class="macro-row">
+      <div class="macro-card">
+        <div class="macro-icon">🔥</div>
+        <div class="macro-val">2,800</div>
+        <div class="macro-label">Calories / Day</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-icon">🥩</div>
+        <div class="macro-val">180g</div>
+        <div class="macro-label">Protein</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-icon">🍚</div>
+        <div class="macro-val">320g</div>
+        <div class="macro-label">Carbs</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-icon">🥑</div>
+        <div class="macro-val">85g</div>
+        <div class="macro-label">Fats</div>
+      </div>
+    </div>
+    <div class="meal-timeline">
+      <div class="meal-card">
+        <div class="meal-time-block">
+          <div class="meal-time">7:00</div>
+          <div class="meal-type">Pre-Workout</div>
+        </div>
+        <div class="meal-foods">
+          <div class="food-item"><span>Oats with banana and honey</span><span class="food-cals">420 kcal</span></div>
+          <div class="food-item"><span>Boiled eggs (3)</span><span class="food-cals">210 kcal</span></div>
+          <div class="food-item"><span>Black coffee</span><span class="food-cals">5 kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-time-block">
+          <div class="meal-time">10:30</div>
+          <div class="meal-type">Post-Workout</div>
+        </div>
+        <div class="meal-foods">
+          <div class="food-item"><span>Whey protein shake (40g)</span><span class="food-cals">160 kcal</span></div>
+          <div class="food-item"><span>Banana</span><span class="food-cals">90 kcal</span></div>
+          <div class="food-item"><span>Mixed nuts (30g)</span><span class="food-cals">180 kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-time-block">
+          <div class="meal-time">1:00</div>
+          <div class="meal-type">Lunch</div>
+        </div>
+        <div class="meal-foods">
+          <div class="food-item"><span>Grilled chicken breast (200g)</span><span class="food-cals">330 kcal</span></div>
+          <div class="food-item"><span>Brown rice (1 cup cooked)</span><span class="food-cals">215 kcal</span></div>
+          <div class="food-item"><span>Mixed salad with olive oil</span><span class="food-cals">120 kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-time-block">
+          <div class="meal-time">4:00</div>
+          <div class="meal-type">Snack</div>
+        </div>
+        <div class="meal-foods">
+          <div class="food-item"><span>Greek yogurt (200g)</span><span class="food-cals">130 kcal</span></div>
+          <div class="food-item"><span>Blueberries (1 cup)</span><span class="food-cals">85 kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-time-block">
+          <div class="meal-time">8:00</div>
+          <div class="meal-type">Dinner</div>
+        </div>
+        <div class="meal-foods">
+          <div class="food-item"><span>Salmon fillet (180g)</span><span class="food-cals">355 kcal</span></div>
+          <div class="food-item"><span>Sweet potato (200g)</span><span class="food-cals">180 kcal</span></div>
+          <div class="food-item"><span>Steamed broccoli & spinach</span><span class="food-cals">60 kcal</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: PROFILE ══════════════ -->
+<div class="screen" id="screen-profile">
+  <div class="profile-container">
+    <div class="plan-title" style="margin-bottom:24px">PROFILE</div>
+    <div class="profile-hero">
+      <div class="profile-avatar-big">A</div>
+      <div>
+        <div class="profile-name">ASHISH ARORA</div>
+        <div class="profile-goal">🎯 Goal: Muscle Gain</div>
+        <div class="profile-tags">
+          <div class="profile-tag">Age: 22</div>
+          <div class="profile-tag">Male</div>
+          <div class="profile-tag">62 kg</div>
+          <div class="profile-tag">Intermediate</div>
+          <div class="profile-tag">📍 Chennai</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;display:flex;flex-direction:column;gap:10px">
+        <button class="btn btn-outline btn-sm" onclick="showToast('Profile updated!')">Edit Profile</button>
+        <button class="btn btn-sm" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted)" onclick="doLogout()">Sign Out</button>
+      </div>
+    </div>
+    <div class="profile-two-col">
+      <div class="info-card">
+        <div class="section-title" style="font-size:14px">Body Stats</div>
+        <div class="info-row"><span class="info-key">Weight</span><span class="info-val">62 kg</span><span class="info-edit">Edit</span></div>
+        <div class="info-row"><span class="info-key">Height</span><span class="info-val">175 cm</span><span class="info-edit">Edit</span></div>
+        <div class="info-row"><span class="info-key">Body Fat</span><span class="info-val">22%</span><span class="info-edit">Edit</span></div>
+        <div class="info-row"><span class="info-key">BMI</span><span class="info-val">20.2</span></div>
+        <div class="info-row"><span class="info-key">TDEE</span><span class="info-val">2,650 kcal</span></div>
+      </div>
+      <div class="info-card">
+        <div class="section-title" style="font-size:14px">Fitness Stats</div>
+        <div class="info-row"><span class="info-key">Total Workouts</span><span class="info-val">48</span></div>
+        <div class="info-row"><span class="info-key">Current Streak</span><span class="info-val">🔥 12 days</span></div>
+        <div class="info-row"><span class="info-key">Best Streak</span><span class="info-val">21 days</span></div>
+        <div class="info-row"><span class="info-key">Member Since</span><span class="info-val">Jan 2025</span></div>
+        <div class="info-row"><span class="info-key">Plan Adherence</span><span class="info-val" style="color:var(--gold)">92%</span></div>
+      </div>
+      <div class="info-card">
+        <div class="section-title" style="font-size:14px">Personal Records</div>
+        <div class="info-row"><span class="info-key">Squat 1RM</span><span class="info-val pr-badge">90 kg 🏆</span></div>
+        <div class="info-row"><span class="info-key">Bench Press 1RM</span><span class="info-val pr-badge">80 kg 🏆</span></div>
+        <div class="info-row"><span class="info-key">Deadlift 1RM</span><span class="info-val pr-badge">100 kg 🏆</span></div>
+        <div class="info-row"><span class="info-key">OHP 1RM</span><span class="info-val pr-badge">55 kg 🏆</span></div>
+      </div>
+      <div class="info-card">
+        <div class="section-title" style="font-size:14px">Notifications</div>
+        <div class="info-row"><span class="info-key">Workout Reminders</span>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
+            <input type="checkbox" checked onchange="showToast('Reminder ' + (this.checked?'enabled':'disabled'))">
+            <span class="info-val" style="font-size:12px">Enabled</span>
+          </label>
+        </div>
+        <div class="info-row"><span class="info-key">SMS via Twilio</span>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
+            <input type="checkbox" onchange="showToast('SMS ' + (this.checked?'enabled':'disabled'))">
+            <span class="info-val" style="font-size:12px">Disabled</span>
+          </label>
+        </div>
+        <div class="info-row"><span class="info-key">Weekly Report Email</span>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
+            <input type="checkbox" checked onchange="showToast('Email reports ' + (this.checked?'enabled':'disabled'))">
+            <span class="info-val" style="font-size:12px">Enabled</span>
+          </label>
+        </div>
+        <div class="info-row"><span class="info-key">AI Suggestions</span>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
+            <input type="checkbox" checked onchange="showToast('AI suggestions ' + (this.checked?'on':'off'))">
+            <span class="info-val" style="font-size:12px">Enabled</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────
+const workouts = {
+  legs: [
+    {name:'Leg Press', sets:3, reps:'12', weight:55, pr:false},
+    {name:'Barbell Squat', sets:3, reps:'12', weight:50, pr:true},
+    {name:'Dumbbell Lunge', sets:3, reps:'12 each', weight:35, pr:false},
+    {name:'Hip Thrust', sets:3, reps:'8', weight:75, pr:true},
+    {name:'Calf Raises', sets:4, reps:'20', weight:40, pr:false},
+  ],
+  chest: [
+    {name:'Flat Bench Press', sets:4, reps:'10', weight:80, pr:true},
+    {name:'Incline DB Press', sets:3, reps:'12', weight:30, pr:false},
+    {name:'Cable Fly', sets:3, reps:'15', weight:15, pr:false},
+    {name:'Push-Ups', sets:3, reps:'20', weight:0, pr:false},
+    {name:'Tricep Pushdown', sets:3, reps:'12', weight:25, pr:false},
+    {name:'Overhead Extension', sets:3, reps:'12', weight:20, pr:false},
+  ],
+  back: [
+    {name:'Deadlift', sets:4, reps:'6', weight:100, pr:true},
+    {name:'Bent-Over Row', sets:3, reps:'10', weight:70, pr:false},
+    {name:'Lat Pulldown', sets:3, reps:'12', weight:60, pr:false},
+    {name:'Seated Cable Row', sets:3, reps:'12', weight:55, pr:false},
+    {name:'Face Pulls', sets:3, reps:'15', weight:20, pr:false},
+    {name:'Bicep Curl', sets:3, reps:'12', weight:16, pr:false},
+  ],
+  shoulders: [
+    {name:'OHP', sets:4, reps:'8', weight:55, pr:true},
+    {name:'Lateral Raise', sets:3, reps:'15', weight:10, pr:false},
+    {name:'Front Raise', sets:3, reps:'12', weight:8, pr:false},
+    {name:'Rear Delt Fly', sets:3, reps:'15', weight:8, pr:false},
+    {name:'Shrugs', sets:3, reps:'15', weight:40, pr:false},
+  ],
+  arms: [
+    {name:'Barbell Curl', sets:3, reps:'12', weight:20, pr:false},
+    {name:'Hammer Curl', sets:3, reps:'12', weight:14, pr:false},
+    {name:'Skull Crushers', sets:3, reps:'10', weight:25, pr:false},
+    {name:'Tricep Dips', sets:3, reps:'15', weight:0, pr:false},
+  ]
+};
+
+const splitNames = {
+  legs:'Leg Day',chest:'Chest + Triceps',back:'Back + Biceps',shoulders:'Shoulders',arms:'Arms'
+};
+
+let currentScreen = 'intro';
+let setCount = 3;
+
+// ─── NAVIGATION ─────────────────────────
+function goto(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  const nav = document.getElementById('mainNav');
+  nav.style.display = (screen === 'intro' || screen === 'auth') ? 'none' : 'flex';
+  document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+  const navLink = document.getElementById('nav-' + screen);
+  if (navLink) navLink.classList.add('active');
+  currentScreen = screen;
+  window.scrollTo(0, 0);
+  if (screen === 'dashboard') renderDashExercises('legs');
+  if (screen === 'plan') renderPlanExercises('legs');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('Please enter email and password ⚠️'); return; }
+  showToast('Welcome back, Ashish! 💪');
+  setTimeout(() => goto('dashboard'), 600);
+}
+
+function demoLogin() {
+  showToast('Loading demo account... 🚀');
+  setTimeout(() => goto('dashboard'), 600);
+}
+
+function doLogout() {
+  showToast('See you next session! 👋');
+  setTimeout(() => goto('intro'), 800);
+}
+
+function switchTab(tab) {
+  document.getElementById('form-login').style.display = tab==='login'?'block':'none';
+  document.getElementById('form-signup').style.display = tab==='signup'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+}
+
+function selectGoal(el) {
+  document.querySelectorAll('.goal-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ─── DASHBOARD EXERCISES ────────────────
+function renderDashExercises(group) {
+  const list = document.getElementById('exerciseList');
+  list.innerHTML = '';
+  workouts[group].forEach((ex, i) => {
+    const div = document.createElement('div');
+    div.className = 'exercise-item';
+    div.id = 'dash-ex-' + i;
+    div.innerHTML = `
+      <div class="ex-check" id="check-${i}">✓</div>
+      <div class="ex-info">
+        <div class="ex-name">${ex.name}</div>
+        <div class="ex-meta">${ex.sets} sets × ${ex.reps} reps${ex.pr?' · <span style="color:var(--green)">🏆 PR</span>':''}</div>
+      </div>
+      <div class="ex-weight">${ex.weight?ex.weight:'BW'}<span>${ex.weight?' kg':''}</span></div>
+      <button class="ex-video-btn" onclick="showToast('Opening YouTube tutorial for ${ex.name}...')">▶ Demo</button>
+      <button class="btn btn-gold btn-sm" onclick="openLog('${ex.name}')">Log</button>
+    `;
+    div.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      div.classList.toggle('done');
+    });
+    list.appendChild(div);
+  });
+}
+
+function switchMuscle(el, group) {
+  document.querySelectorAll('.muscle-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderDashExercises(group);
+}
+
+// ─── PLAN EXERCISES ─────────────────────
+function renderPlanExercises(group) {
+  const container = document.getElementById('planExercises');
+  container.innerHTML = '';
+  document.getElementById('planSectionTitle').textContent = splitNames[group] + ' — Exercises';
+  workouts[group].forEach(ex => {
+    const row = document.createElement('div');
+    row.className = 'ex-table-row';
+    row.innerHTML = `
+      <div class="ex-name-cell">${ex.name} ${ex.pr?'<span class="tag">FAVE</span>':''}</div>
+      <div>${ex.sets}</div>
+      <div>${ex.reps}</div>
+      <div>${ex.weight ? ex.weight+'kg' : 'BW'}</div>
+      <div class="pr-badge">${ex.pr?'🏆 PR':'—'}</div>
+      <button class="log-btn" onclick="openLog('${ex.name}')">Log</button>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function selectSplit(el, group) {
+  document.querySelectorAll('.split-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderPlanExercises(group);
+}
+
+// ─── LOG MODAL ──────────────────────────
+function openLog(exName) {
+  document.getElementById('modalExName').textContent = exName;
+  document.getElementById('logModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('logModal').classList.remove('open');
+}
+
+function addSet() {
+  setCount++;
+  const rows = document.getElementById('setRows');
+  const row = document.createElement('div');
+  row.className = 'set-row';
+  row.innerHTML = `<div class="set-num">${setCount}</div><input class="form-input" type="number" placeholder="60" style="padding:8px 10px"><input class="form-input" type="number" placeholder="10" style="padding:8px 10px"><div class="set-done" onclick="this.style.color='var(--green)'">○</div>`;
+  rows.appendChild(row);
+}
+
+function saveLog() {
+  closeModal();
+  showToast('Workout logged! 💪 Great set!');
+}
+
+// ─── TOAST ──────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── INIT ────────────────────────────────
+document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+</script>
+</body>
+</html>
